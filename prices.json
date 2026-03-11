@@ -1,0 +1,48 @@
+{
+  "configurations": [
+    {
+      "model_name": "GPT-4o (The Heavyweight)",
+      "provider": "OpenAI",
+      "hardware": "H100 SXM",
+      "quality": 5,
+      "billing_type": "token",
+      "input_price": 5.00,
+      "output_price": 15.00,
+      "parameters_billions": 175.0,
+      "quantization_bits": 8
+    },
+    {
+      "model_name": "Claude 3.5 Sonnet (The Efficiency King)",
+      "provider": "Anthropic",
+      "hardware": "TPU v6e",
+      "quality": 5,
+      "billing_type": "token",
+      "input_price": 3.00,
+      "output_price": 9.00,
+      "parameters_billions": 175.0,
+      "quantization_bits": 4
+    },
+    {
+      "model_name": "Llama 3.1 8B (The Speedster)",
+      "provider": "Meta/Groq",
+      "hardware": "H100 SXM",
+      "quality": 2,
+      "billing_type": "token",
+      "input_price": 0.05,
+      "output_price": 0.10,
+      "parameters_billions": 8.0,
+      "quantization_bits": 4
+    },
+    {
+      "model_name": "Legacy-Model-X (The Legacy Trap)",
+      "provider": "Internal/Old-Cloud",
+      "hardware": "Shared",
+      "quality": 3,
+      "billing_type": "token",
+      "input_price": 15.00,
+      "output_price": 45.00,
+      "parameters_billions": 70.0,
+      "quantization_bits": 16
+    }
+  ]
+}
