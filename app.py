@@ -4,51 +4,71 @@ import plotly.express as px
 import json
 from engine import InferenceConfig, get_pareto_frontier
 
-# --- UI & THEMING ---
-st.set_page_config(page_title="AI Model-Decision-Tradeoff Tool", layout="wide")
+# --- 1. INITIALIZATION: Must be the very first Streamlit call ---
+st.set_page_config(
+    page_title="AI Model-Decision-Tradeoff Tool", 
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
 
+# --- 2. THEME-AWARE STYLING ---
+# We remove the hard-coded colors for the intro-box and let Streamlit handle them.
+# We keep only structural CSS for the reports and banners.
 st.markdown("""
     <style>
-    .main { background-color: #f8f9fa; }
-    .intro-box { 
-        background-color: #ffffff; padding: 30px; border-radius: 12px; 
-        border: 2px solid #dee2e6; margin-bottom: 35px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    }
+    .main { background-color: transparent; }
     .executive-report { 
-        background-color: #ffffff; padding: 30px; border-radius: 12px; 
-        border: 2px solid #e9ecef; color: #1a1c24 !important; margin-bottom: 25px;
+        padding: 25px; 
+        border-radius: 12px; 
+        border: 1px solid rgba(151, 151, 151, 0.2); 
+        margin-bottom: 25px; 
+    }
+    .cfo-banner { border-left: 10px solid #dc3545; }
+    .tradeoff-banner { border-left: 10px solid #ffc107; }
+    .priority-container { 
+        padding: 20px; 
+        border-radius: 12px; 
+        border: 1px solid rgba(151, 151, 151, 0.2); 
+        margin-bottom: 30px; 
     }
     .profile-badge {
         background-color: #00E5FF; color: #000; padding: 6px 14px; 
         border-radius: 20px; font-weight: bold; font-size: 0.9rem;
     }
-    .cfo-banner { border-left: 10px solid #dc3545; }
-    .tradeoff-banner { border-left: 10px solid #ffc107; }
-    .scale-key { font-size: 0.85rem; color: #6c757d; line-height: 1.4; padding: 12px; background: #f1f3f5; border-radius: 8px; }
-    .priority-container { background-color: #ffffff; padding: 20px; border-radius: 12px; border: 1px solid #e9ecef; margin-bottom: 30px; }
     </style>
     """, unsafe_allow_html=True)
 
-# --- TOP OF PAGE: STRATEGIC OVERVIEW ---
+# --- 3. TOP OF PAGE: STRATEGIC OVERVIEW (Native Version) ---
 st.title("🚀 AI Model-Decision-Tradeoff Tool")
 
+# Using st.info ensures perfect background/text contrast on all devices [cite: 5639]
+st.info("""
+**Strategic Purpose:** This tool is a governance gate designed to move organizations 
+from monolithic "one-size-fits-all" model deployments toward a **Diversified AI Strategy**. 
+It reveals the quantifiable tradeoffs of current technical decisions against the market's efficiency frontier. [cite: 4878, 4880]
+""")
+
+# Use a native container for the guide to maintain clean spacing and legibility
 with st.container():
-    st.markdown("""
-    <div class="intro-box">
-        <h3>Strategic Purpose</h3>
-        <p>This tool is a governance gate designed to move organizations from monolithic "one-size-fits-all" model deployments toward a <b>Diversified AI Strategy</b>. It reveals the quantifiable tradeoffs of current technical decisions against the market's efficiency frontier.</p>
-        <hr>
-        <h4>Operational Guide:</h4>
-        <p><b>Step 1: Define Strategic Priorities</b><br>
-        Adjust the sliders below to set your project's internal requirements. This ranks market leaders by how well they match your stance.</p>
-        <p><b>Step 2: Map Usage & Identify Efficiency Gaps</b><br>
-        Upload your 'Actuals' CSV. This reveals the physical distance between your current baseline (Red) and technical leaders (Blue).</p>
-        <p><b>Step 3: Analyze Tradeoffs & Optimization</b><br>
-        Review the generated reports to identify the <b>"Inflexibility Tax"</b>—the cost of choosing simplicity over efficiency.</p>
-        <p><b>Step 4: Execute Deployment Sign-off</b><br>
-        Select a target configuration and document the rationale to create a defensible audit trail.</p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.subheader("Operational Guide")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("""
+        **Step 1: Define Strategic Priorities** Adjust the sliders below to set your project's internal requirements. This ranks market leaders by how well they match your stance. [cite: 3080, 3081]
+        
+        **Step 2: Map Usage & Identify Efficiency Gaps** Upload your 'Actuals' CSV. This reveals the physical distance between your current baseline and technical leaders on the Pareto frontier. [cite: 3066, 3095]
+        """)
+        
+    with col2:
+        st.markdown("""
+        **Step 3: Analyze Tradeoffs & Optimization** Review the generated reports to identify the **"Inflexibility Tax"**—the cost of choosing simplicity over efficiency. [cite: 3085, 4877]
+        
+        **Step 4: Execute Deployment Sign-off** Select a target configuration and document the rationale to create a defensible audit trail. [cite: 3336, 4190]
+        """)
+
+st.divider()
 
 # --- STEP 1: DEFINE PRIORITIES (NOW IN MAIN COLUMN) ---
 st.header("🛡️ 1️⃣ Define Strategic Priorities")
